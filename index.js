@@ -6,9 +6,12 @@ process.stdin.pipe(split()).pipe(
   through(function (log, encoding, callback) {
     fetch('http://localhost:6543/log', {
       method: 'POST',
-      body: log,
+      body: JSON.stringify({
+        at: new Date().toISOString(),
+        log: log.toString()
+      }),
       headers: {
-        'content-type': 'text/plain'
+        'content-type': 'application/json'
       }
     })
 
